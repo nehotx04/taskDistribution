@@ -50,9 +50,15 @@ class TaskController extends Controller
 
     public function getDay(){
         $fecha = Carbon::now();
-        $diaSemana = $fecha->locale('es')->dayName; 
-        echo "Hoy es " . $diaSemana;
-        // return "Hoy es ". $diaSemana;
+        // $diaSemana = $fecha->locale('es')->dayName; 
+        $weekDay = $fecha->dayOfWeek;
+        $tasks = DB::table('tasks')
+        ->join('users', 'tasks.user_id', '=', 'users.id')
+        ->select('tasks.*', 'users.name as user')
+        ->where('week_day', '=', $weekDay)
+        ->get();
+        
+        return $tasks;
     }
 
     // public function 

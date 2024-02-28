@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description',255)->nullable();
             $table->foreignId('user_id')->constrained('users')->nullable(false);
             $table->boolean('completed')->default(false);
-            $table->enum('week_day', ['lunes','martes','miercoles','jueves','viernes','sabado','domingo'])->nullable(false);
+            $table->enum('week_day', ['lunes','martes','miércoles','jueves','viernes','sábado','domingo'])->nullable(false);
             $table->timestamps();
         });
     }
