@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tasks', function(Blueprint $table){
             $table->id();
             $table->string('name',255)->nullable(false);
-            $table->string('description',255)->nullable(false);
+            $table->string('description',255)->nullable();
             $table->foreignId('user_id')->constrained('users')->nullable(false);
             $table->boolean('completed')->default(false);
             $table->enum('week_day', ['lunes','martes','miercoles','jueves','viernes','sabado','domingo'])->nullable(false);

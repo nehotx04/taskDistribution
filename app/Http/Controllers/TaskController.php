@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -16,8 +16,12 @@ class TaskController extends Controller
     }
 
     public function index(){
-        $task = Task::all();
-        return $task;
+        $tasks = DB::table('tasks')
+        ->join('users', 'tasks.user_id', '=', 'users.id')
+        ->select('tasks.*', 'users.name as user')
+        ->get();
+
+        return $tasks;
     }
 
     public function update(Request $request, Task $task){
@@ -48,7 +52,10 @@ class TaskController extends Controller
         $fecha = Carbon::now();
         $diaSemana = $fecha->locale('es')->dayName; 
         echo "Hoy es " . $diaSemana;
+        // return "Hoy es ". $diaSemana;
     }
+
+    // public function 
 
     public function completeTask(Task $task){
         $task = Task::find($task->id);

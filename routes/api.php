@@ -27,6 +27,7 @@ Route::group(['prefix'=>'users'],function(){
 Route::group(['prefix'=>'tasks'],function(){
     Route::get('/',[TaskController::class, 'index']);
     Route::post('/',[TaskController::class, 'store']);
+    Route::get('/day',[TaskController::class, 'getDay']);
     Route::put('/{task}',[TaskController::class, 'update']);
     Route::put('/{task}',[TaskController::class, 'completeTask']);
     Route::delete('/{task}',[TaskController::class, 'destroy']);
