@@ -48,20 +48,26 @@ class TaskController extends Controller
 
     }
 
+    private function adjustWeekday($weekDay){
+        if ($weekDay === 0) {
+            $adjustedWeekday = 7;
+          }else{
+            $adjustedWeekday = $weekDay;
+          }
+        return $adjustedWeekday;
+    }
+
     public function getDay(){
         $fecha = Carbon::now();
-        // $diaSemana = $fecha->locale('es')->dayName; 
         $weekDay = $fecha->dayOfWeek;
+        $weekDay = $this->adjustWeekday($weekDay);
         $tasks = DB::table('tasks')
         ->join('users', 'tasks.user_id', '=', 'users.id')
         ->select('tasks.*', 'users.name as user')
         ->where('week_day', '=', $weekDay)
         ->get();
-        
         return $tasks;
     }
-
-    // public function 
 
     public function completeTask(Task $task){
         $task = Task::find($task->id);
@@ -72,9 +78,11 @@ class TaskController extends Controller
             
         if($task->completed != true){
             $task->completed = true;
+            $task->save();
             return "task completed";
         }else{
             $task->completed = false;
+            $task->save();
             return "task marked as uncompleted";
         }
 
